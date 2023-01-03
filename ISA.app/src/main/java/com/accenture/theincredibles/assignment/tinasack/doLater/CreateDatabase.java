@@ -1,4 +1,6 @@
-package com.accenture.theincredibles.assignment.tinasack;
+package com.accenture.theincredibles.assignment.tinasack.doLater;
+
+import com.accenture.theincredibles.assignment.tinasack.Connector;
 
 import java.sql.Connection;
 import java.sql.SQLException;

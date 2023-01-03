@@ -15,8 +15,6 @@ public class Connector {
         Connection db = DriverManager.getConnection(
                 "jdbc:mysql://localhost:3306/",
                 connectionProps);
-
-        System.out.println("Connected to database");
         return db;
     }
 
