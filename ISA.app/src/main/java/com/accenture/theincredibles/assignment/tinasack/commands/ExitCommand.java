@@ -5,18 +5,19 @@ import java.util.Scanner;
 public class ExitCommand implements Command {
     @Override
     public boolean execute() {
-        if(validExecute()) {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Are you sure you want to leave? (y/n)");
+        System.out.print(">> ");
+        String input = scanner.nextLine();
+        if("y".equals(input)) {
             System.out.print("Thank's for using our App. Goodbye!");
             return false;
-        } else {
-            System.out.print(".");
-            System.out.print(".");
-            System.out.print(".");
-            System.out.println("Return to start");
-            System.out.print(".");
-            System.out.print(".");
-            System.out.print(".");
+        } else if ("n".equals(input)){
+            load();
             return true;
+        } else {
+            System.out.println("Invalid input! Try 'y' for yes and 'n' for no.");
+            return execute();
         }
     }
 
@@ -25,11 +26,33 @@ public class ExitCommand implements Command {
         return "exit".equals(userInput);
     }
 
-    public boolean validExecute() {
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Are you sure you want to leave? (y/n)");
-        System.out.println(">> ");
-        String input = scanner.nextLine();
-        return "y".equals(input);
+    /**
+     * print sign by sign with delay - like a "loading bar"
+     */
+    public void load() {
+        try
+        {
+            System.out.print("-");
+            Thread.sleep(1000);
+            System.out.print(" -");
+            Thread.sleep(1000);
+            System.out.print(" -");
+            Thread.sleep(1000);
+            System.out.print(" Return");
+            Thread.sleep(1000);
+            System.out.print(" to");
+            Thread.sleep(1000);
+            System.out.print(" start");
+            Thread.sleep(1000);
+            System.out.print(" -");
+            Thread.sleep(1000);
+            System.out.print(" -");
+            Thread.sleep(1000);
+            System.out.println(" -");
+        }
+        catch(InterruptedException ex)
+        {
+            Thread.currentThread().interrupt();
+        }
     }
 }
