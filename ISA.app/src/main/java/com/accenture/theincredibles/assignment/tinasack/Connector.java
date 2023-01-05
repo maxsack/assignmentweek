@@ -13,7 +13,7 @@ public class Connector {
         connectionProps.put("password", "secret");
 
         Connection db = DriverManager.getConnection(
-                "jdbc:mysql://localhost:3306/",
+                "jdbc:mysql://localhost:3306/stockDatabase",
                 connectionProps);
         return db;
     }
