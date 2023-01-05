@@ -1,5 +1,7 @@
 package com.accenture.theincredibles.assignment.tinasack.repositories;
 
+import com.accenture.theincredibles.assignment.tinasack.models.Company;
+import com.accenture.theincredibles.assignment.tinasack.models.Industry;
 import com.accenture.theincredibles.assignment.tinasack.models.StockPrice;
 
 import java.sql.*;
@@ -33,14 +35,9 @@ public class StockRepository {
     public void delete(){
         try {
             PreparedStatement deleteStockStmt = connection.prepareStatement(
-                 "delete * from stock;"
+                 "delete from stock;"
             );
-            PreparedStatement deleteCompanyStmt = connection.prepareStatement(
-                    "delete * from company;"
-            );
-            PreparedStatement deleteIndustryStmt = connection.prepareStatement(
-                    "delete * from industry;"
-            );
+            deleteStockStmt.execute();
         } catch (SQLException deleteException) {
             System.out.println("Could not delete data! Please try again.");
         }
@@ -118,5 +115,21 @@ public class StockRepository {
         updateStmt.setInt(2, company_id);
         updateStmt.execute();
         return true;
+    }
+
+    public List<Industry> countStockPerIndustry(Integer industryID, String industryName) throws SQLException {
+        String sql = "select COUNT(company_id) from stock where industry_id = ?";
+        PreparedStatement countStmt = connection.prepareStatement(sql);
+        countStmt.setInt(1, industryID);
+        ResultSet countResult = countStmt.executeQuery();
+        List<Industry> industries = new ArrayList<>();
+        while(countResult.next()) {
+            Industry industry = new Industry();
+            industry.setId(industryID);
+            industry.setName(industryName);
+            industry.setNumberOfStocks(countResult.getInt(1));
+            industries.add(industry);
+        }
+        return industries;
     }
 }

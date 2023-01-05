@@ -31,4 +31,15 @@ public class CompanyRepository {
         }
         return companyList;
     }
+
+    public void delete(){
+        try {
+            PreparedStatement deleteCompanyStmt = connection.prepareStatement(
+                    "delete from company;"
+            );
+            deleteCompanyStmt.execute();
+        } catch (SQLException deleteException) {
+            System.out.println("Could not delete data! Please try again.");
+        }
+    }
 }

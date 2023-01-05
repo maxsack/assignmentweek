@@ -6,29 +6,38 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.IndustryRep
 import com.accenture.theincredibles.assignment.tinasack.repositories.StockRepository;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 public class IndustryCommand implements Command {
     private IndustryRepository industryRepository;
 
-    public IndustryCommand(IndustryRepository industryRepository) {
+    private StockRepository stockRepository;
+
+    public IndustryCommand(IndustryRepository industryRepository, StockRepository stockRepository) {
         this.industryRepository = industryRepository;
+        this.stockRepository = stockRepository;
     }
 
     @Override
     public boolean execute() throws SQLException {
-        List<Industry> industries = industryRepository.showIndustry();
+
+        List<Industry> industryIdNameList = industryRepository.showIndustry();
+        List<Industry> industries = new ArrayList<>();
         Integer count = 0;
-        for (Industry industry : industries) {
+        for (Industry industryIdName : industryIdNameList) {
             count++;
-            Integer id = industry.getId();
-            String industryName = industry.getName();
-            if(count == 1) {
-                System.out.println("Industries:");
+            Integer id = industryIdName.getId();
+            String industryName = industryIdName.getName();
+            industries = stockRepository.countStockPerIndustry(id, industryName);
+            for (Industry industry:industries){
+                Integer numberOfStocks = industry.getNumberOfStocks();
+                if(count == 1) {
+                    System.out.println("Industries:");
+                }
+                System.out.println(id + ". " + industryName + " - " + numberOfStocks + " stocks");
             }
-            System.out.println(id + ". " + industryName);
         }
-        /*TODO COUNT COMPANY!*/
         System.out.println("- - - - - - - - - -");
         return true;
     }

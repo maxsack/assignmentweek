@@ -5,6 +5,16 @@ public class Industry {
     private Integer id;
     private String name;
 
+    public Integer getNumberOfStocks() {
+        return numberOfStocks;
+    }
+
+    public void setNumberOfStocks(Integer numberOfStocks) {
+        this.numberOfStocks = numberOfStocks;
+    }
+
+    private Integer numberOfStocks;
+
     public String getName() {
         return name;
     }

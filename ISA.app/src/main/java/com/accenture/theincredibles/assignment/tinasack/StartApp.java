@@ -30,7 +30,7 @@ public class StartApp {
         IndustryRepository industryRepo = new IndustryRepository(connection);
         CompanyRepository companyRepo = new CompanyRepository(connection);
 
-        List<Command> simpleCommands = createSimpleCommandList(industryRepo);
+        List<Command> simpleCommands = createSimpleCommandList(industryRepo, stockRepo, companyRepo);
         List<InputCommand> inputCommands = createInputCommandList(industryRepo, stockRepo, companyRepo);
 
         System.out.println("Welcome to ISA-Stock-Application!");
@@ -59,10 +59,11 @@ public class StartApp {
             }
         }
     }
-    public List<Command> createSimpleCommandList(IndustryRepository industryRepo){
+    public List<Command> createSimpleCommandList(IndustryRepository industryRepo, StockRepository stockRepo, CompanyRepository companyRepo){
         List<Command> simpleCommands = new ArrayList<>();
         simpleCommands.add(new ExitCommand());
-        simpleCommands.add(new IndustryCommand(industryRepo));
+        simpleCommands.add(new IndustryCommand(industryRepo, stockRepo));
+        simpleCommands.add(new DeleteCommand(industryRepo, stockRepo, companyRepo));
         return simpleCommands;
     }
 

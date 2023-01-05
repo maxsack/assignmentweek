@@ -43,4 +43,15 @@ public class IndustryRepository {
         }
         return 0;
     }
+
+    public void delete(){
+        try {
+            PreparedStatement deleteIndustryStmt = connection.prepareStatement(
+                    "delete from industry;"
+            );
+            deleteIndustryStmt.execute();
+        } catch (SQLException deleteException) {
+            System.out.println("Could not delete data! Please try again.");
+        }
+    }
 }
