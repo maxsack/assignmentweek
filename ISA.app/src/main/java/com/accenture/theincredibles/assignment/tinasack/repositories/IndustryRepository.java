@@ -19,7 +19,7 @@ public class IndustryRepository {
     }
 
     public List<Industry> showIndustry() throws SQLException {
-        String sql = "select * from industry;";
+        String sql = "select * from industry";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -34,7 +34,7 @@ public class IndustryRepository {
     }
 
     public Integer showIndustryID(String industry) throws SQLException{
-        String sql = "select id from industry where name = ?;";
+        String sql = "select id from industry where name = ?";
         PreparedStatement getIdStmt = connection.prepareStatement(sql);
         getIdStmt.setString(1, industry);
         ResultSet getIdResult = getIdStmt.executeQuery();
@@ -72,7 +72,7 @@ public class IndustryRepository {
             return true;
         } else {
             try {
-                String sql = "select count(name) from industry name=?;";
+                String sql = "select count(name) from industry name=?";
                 PreparedStatement validStmt = connection.prepareStatement(sql);
                 validStmt.setString(1, industry);
                 ResultSet validResult = validStmt.executeQuery();
@@ -93,7 +93,7 @@ public class IndustryRepository {
         /* BEACHTE DAS INDUSTRY DOPPELT SIND VORHER CHECKEN!! */
         if(checkValidInsert(industry)) {
             try {
-                String sql = "insert into industry name=?;";
+                String sql = "insert into industry name=?";
                 PreparedStatement importStmt = connection.prepareStatement(sql);
                 importStmt.setString(1, industry);
                 importStmt.execute();

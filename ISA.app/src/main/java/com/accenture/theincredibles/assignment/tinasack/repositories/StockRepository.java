@@ -22,7 +22,7 @@ public class StockRepository {
     /** creating methods to access and manipulate the database as the given commands (user provided) require  **/
 
     public boolean addPrice(Integer company_id, LocalDate date, Double price, Integer industry_id) throws SQLException {
-        String sql = "insert into stock (company_id, datePricing, price, industry_id) values ( ?, ?, ?, ?);";
+        String sql = "insert into stock (company_id, datePricing, price, industry_id) values ( ?, ?, ?, ?)";
         PreparedStatement addStmt = connection.prepareStatement(sql);
         addStmt.setInt(1, company_id);
         addStmt.setObject(2, date);
@@ -44,7 +44,7 @@ public class StockRepository {
     }
 
     public List<StockPrice> showStockPriceByID(Integer id) throws SQLException {
-        String sql = "select * from stock where company_id=?;";
+        String sql = "select * from stock where company_id=?";
         PreparedStatement showStmt = connection.prepareStatement(
                 sql);
         showStmt.setInt(1, id);
@@ -65,7 +65,7 @@ public class StockRepository {
     }
 
     public Integer showStockIndustry(Integer companyId) throws SQLException {
-        String sql = "select industry_id from stock where company_id = ?;";
+        String sql = "select industry_id from stock where company_id = ?";
         PreparedStatement industryStmt = connection.prepareStatement(sql);
         industryStmt.setInt(1, companyId);
         ResultSet industryResult = industryStmt.executeQuery();
@@ -76,7 +76,7 @@ public class StockRepository {
     }
 
     public Integer showMaxStockPrice(Integer companyId) throws SQLException{
-        String sql = "select MAX(price) as maxPrice from stock where company_id = ?;";
+        String sql = "select MAX(price) as maxPrice from stock where company_id = ?";
         PreparedStatement maxStmt = connection.prepareStatement(sql);
         maxStmt.setInt(1, companyId);
         ResultSet maxResult = maxStmt.executeQuery();
@@ -87,7 +87,7 @@ public class StockRepository {
     }
 
     public Integer showMinStockPrice(Integer companyId) throws SQLException{
-        String sql = "select MIN(price) as minPrice from stock where company_id = ?;";
+        String sql = "select MIN(price) as minPrice from stock where company_id = ?";
         PreparedStatement minStmt = connection.prepareStatement(sql);
         minStmt.setInt(1, companyId);
         ResultSet minResult = minStmt.executeQuery();
@@ -98,7 +98,7 @@ public class StockRepository {
     }
 
     public boolean updateIndustry(Integer company_id, Integer industry_id) throws SQLException {
-        String sql = "UPDATE stock SET industry_id = ? WHERE company_id = ?;";
+        String sql = "UPDATE stock SET industry_id = ? WHERE company_id = ?";
         PreparedStatement updateStmt = connection.prepareStatement(sql);
         updateStmt.setInt(1, industry_id);
         updateStmt.setInt(2, company_id);
@@ -107,7 +107,7 @@ public class StockRepository {
     }
 
     public List<Industry> countStockPerIndustry(Integer industryID, String industryName) throws SQLException {
-        String sql = "select COUNT(company_id) from stock where industry_id = ? order by date limit 10;";
+        String sql = "select COUNT(company_id) from stock where industry_id = ? order by date limit 10";
         PreparedStatement countStmt = connection.prepareStatement(sql);
         countStmt.setInt(1, industryID);
         ResultSet countResult = countStmt.executeQuery();
@@ -124,7 +124,7 @@ public class StockRepository {
 
     public void stockImport(Integer compayID, Double price, LocalDate date, Integer industryID){
         try{
-            String sql = "insert into stock (companyID, price, date, industryID) values (?, ?, ?, ?);";
+            String sql = "insert into stock (companyID, price, date, industryID) values (?, ?, ?, ?)";
             PreparedStatement importStmt = connection.prepareStatement(sql);
             importStmt.setInt(1, compayID);
             importStmt.setDouble(2, price);

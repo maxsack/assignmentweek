@@ -83,7 +83,7 @@ public class CompanyRepository {
             return true;
         } else {
             try {
-                String sql = "select count(name) from company name = ?;";
+                String sql = "select count(name) from company name = ?";
                 PreparedStatement validStmt = connection.prepareStatement(sql);
                 validStmt.setString(1, stockname);
                 ResultSet validResult = validStmt.executeQuery();
@@ -99,8 +99,13 @@ public class CompanyRepository {
         }
         return false;
     }
-    public void companyImport(String stockname){
+    public void companyImport(String stockname) {
         if(checkValidInsert(stockname)) {
+            String sql = "insert into company name = ?";
+            PreparedStatement importStmt = connection.prepareStatement(sql);
+            importStmt.setString(1, stockname);
+            importStmt.execute();
+            /*
             try {
                 String sql = "insert into company name = ?;";
                 PreparedStatement importStmt = connection.prepareStatement(sql);
@@ -108,7 +113,7 @@ public class CompanyRepository {
                 importStmt.execute();
             } catch (Exception importException) {
                 System.out.println("Sorry, something went wrong. Could not import!");
-            }
+            } */
         }
     }
 }
