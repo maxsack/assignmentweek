@@ -6,6 +6,7 @@ import com.accenture.theincredibles.assignment.tinasack.models.StockPrice;
 
 import java.sql.*;
 import java.sql.ResultSet;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,14 +21,13 @@ public class StockRepository {
 
     /** creating methods to access and manipulate the database as the given commands (user provided) require  **/
 
-    public boolean addPrice(String companyName, Integer company_id, Date date, Integer price, Integer industry_id) throws SQLException {
-        String sql = "insert into stock (company_name, company_id, datePricing, price, industry_id) values (?, ?, ?, ?, ?)";
+    public boolean addPrice(Integer company_id, LocalDate date, Double price, Integer industry_id) throws SQLException {
+        String sql = "insert into stock (company_id, datePricing, price, industry_id) values ( ?, ?, ?, ?);";
         PreparedStatement addStmt = connection.prepareStatement(sql);
-        addStmt.setString(1, companyName);
-        addStmt.setInt(2, company_id);
-        addStmt.setDate(3, date);
-        addStmt.setInt(4, price);
-        addStmt.setInt(5, industry_id);
+        addStmt.setInt(1, company_id);
+        addStmt.setObject(2, date);
+        addStmt.setDouble(3, price);
+        addStmt.setInt(4, industry_id);
         addStmt.execute();
         return true;
     }
@@ -44,7 +44,7 @@ public class StockRepository {
     }
 
     public List<StockPrice> showStockPriceByID(Integer id) throws SQLException {
-        String sql = "select * from stock where company_id=?";
+        String sql = "select * from stock where company_id=?;";
         PreparedStatement showStmt = connection.prepareStatement(
                 sql);
         showStmt.setInt(1, id);
@@ -59,13 +59,13 @@ public class StockRepository {
 
     private StockPrice readStockPrice(ResultSet resultSet) throws SQLException {
         StockPrice stockPrice = new StockPrice();
-        stockPrice.setStockName(resultSet.getString("company_name"));
+        stockPrice.setCompany_id(resultSet.getInt("company_id"));
         stockPrice.setPrice(resultSet.getInt("price"));
         return stockPrice;
     }
 
     public Integer showStockIndustry(Integer companyId) throws SQLException {
-        String sql = "select industry_id from stock where company_id = ?";
+        String sql = "select industry_id from stock where company_id = ?;";
         PreparedStatement industryStmt = connection.prepareStatement(sql);
         industryStmt.setInt(1, companyId);
         ResultSet industryResult = industryStmt.executeQuery();
@@ -76,7 +76,7 @@ public class StockRepository {
     }
 
     public Integer showMaxStockPrice(Integer companyId) throws SQLException{
-        String sql = "select MAX(price) as maxPrice from stock where company_id = ?";
+        String sql = "select MAX(price) as maxPrice from stock where company_id = ?;";
         PreparedStatement maxStmt = connection.prepareStatement(sql);
         maxStmt.setInt(1, companyId);
         ResultSet maxResult = maxStmt.executeQuery();
@@ -87,7 +87,7 @@ public class StockRepository {
     }
 
     public Integer showMinStockPrice(Integer companyId) throws SQLException{
-        String sql = "select MIN(price) as minPrice from stock where company_id = ?";
+        String sql = "select MIN(price) as minPrice from stock where company_id = ?;";
         PreparedStatement minStmt = connection.prepareStatement(sql);
         minStmt.setInt(1, companyId);
         ResultSet minResult = minStmt.executeQuery();
@@ -97,19 +97,8 @@ public class StockRepository {
         return 0;
     }
 
-    public String showStockName(Integer companyId) throws SQLException{
-        String sql = "select company_name from stock where company_id = ?";
-        PreparedStatement nameStmt = connection.prepareStatement(sql);
-        nameStmt.setInt(1, companyId);
-        ResultSet nameResult = nameStmt.executeQuery();
-        if (nameResult.next()) {
-            return nameResult.getString(1);
-        }
-        return null;
-    }
-
     public boolean updateIndustry(Integer company_id, Integer industry_id) throws SQLException {
-        String sql = "UPDATE stock SET industry_id = ? WHERE company_id = ?";
+        String sql = "UPDATE stock SET industry_id = ? WHERE company_id = ?;";
         PreparedStatement updateStmt = connection.prepareStatement(sql);
         updateStmt.setInt(1, industry_id);
         updateStmt.setInt(2, company_id);
@@ -118,7 +107,7 @@ public class StockRepository {
     }
 
     public List<Industry> countStockPerIndustry(Integer industryID, String industryName) throws SQLException {
-        String sql = "select COUNT(company_id) from stock where industry_id = ?";
+        String sql = "select COUNT(company_id) from stock where industry_id = ? order by date limit 10;";
         PreparedStatement countStmt = connection.prepareStatement(sql);
         countStmt.setInt(1, industryID);
         ResultSet countResult = countStmt.executeQuery();
@@ -131,5 +120,19 @@ public class StockRepository {
             industries.add(industry);
         }
         return industries;
+    }
+
+    public void stockImport(Integer compayID, Double price, LocalDate date, Integer industryID){
+        try{
+            String sql = "insert into stock (companyID, price, date, industryID) values (?, ?, ?, ?);";
+            PreparedStatement importStmt = connection.prepareStatement(sql);
+            importStmt.setInt(1, compayID);
+            importStmt.setDouble(2, price);
+            importStmt.setObject(3, date);
+            importStmt.setInt(4, industryID);
+            importStmt.execute();
+        } catch (Exception importException){
+            System.out.println("Sorry, something went wrong. Could not import!");
+        }
     }
 }

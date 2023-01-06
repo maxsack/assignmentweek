@@ -19,7 +19,7 @@ public class IndustryRepository {
     }
 
     public List<Industry> showIndustry() throws SQLException {
-        String sql = "select * from industry";
+        String sql = "select * from industry;";
         PreparedStatement preparedStatement = connection.prepareStatement(sql);
         ResultSet resultSet = preparedStatement.executeQuery();
 
@@ -33,8 +33,8 @@ public class IndustryRepository {
         return result;
     }
 
-    public Integer readIndustryByName(String industry) throws SQLException{
-        String sql = "select id from industry where name = ?";
+    public Integer showIndustryID(String industry) throws SQLException{
+        String sql = "select id from industry where name = ?;";
         PreparedStatement getIdStmt = connection.prepareStatement(sql);
         getIdStmt.setString(1, industry);
         ResultSet getIdResult = getIdStmt.executeQuery();
@@ -52,6 +52,54 @@ public class IndustryRepository {
             deleteIndustryStmt.execute();
         } catch (SQLException deleteException) {
             System.out.println("Could not delete data! Please try again.");
+        }
+    }
+
+    private Integer count = 0;
+    private boolean firstCheck(){
+        this.count++;
+        if(this.count == 1){
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private boolean checkValidInsert(String industry){
+        Integer count = 0;
+        boolean firstCheck = firstCheck();
+        if (firstCheck){
+            return true;
+        } else {
+            try {
+                String sql = "select count(name) from industry name=?;";
+                PreparedStatement validStmt = connection.prepareStatement(sql);
+                validStmt.setString(1, industry);
+                ResultSet validResult = validStmt.executeQuery();
+                while (validResult.next()) {
+                    count = validResult.getInt(1);
+                }
+                if (count == 0) {
+                    return true;
+                }
+            } catch (Exception vailidException) {
+                System.out.println("Something went wrong! Invalid insert.");
+            }
+        }
+        return false;
+    }
+
+    public void industryImport(String industry){
+        /* BEACHTE DAS INDUSTRY DOPPELT SIND VORHER CHECKEN!! */
+        if(checkValidInsert(industry)) {
+            try {
+                String sql = "insert into industry name=?;";
+                PreparedStatement importStmt = connection.prepareStatement(sql);
+                importStmt.setString(1, industry);
+                importStmt.execute();
+            } catch (Exception importException) {
+                System.out.println("Sorry, something went wrong. Could not import!");
+            }
         }
     }
 }

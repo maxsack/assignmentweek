@@ -1,5 +1,6 @@
 package com.accenture.theincredibles.assignment.tinasack.commands.inputCommands;
 
+import com.accenture.theincredibles.assignment.tinasack.repositories.CompanyRepository;
 import com.accenture.theincredibles.assignment.tinasack.repositories.StockRepository;
 
 import java.sql.SQLException;
@@ -7,9 +8,11 @@ import java.sql.SQLException;
 public class ShowGapCommand implements InputCommand {
 
     private StockRepository stockRepository;
+    private CompanyRepository companyRepository;
 
-    public ShowGapCommand(StockRepository stockRepository) {
-            this.stockRepository = stockRepository;
+    public ShowGapCommand(StockRepository stockRepository, CompanyRepository companyRepository) {
+        this.stockRepository = stockRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -19,7 +22,7 @@ public class ShowGapCommand implements InputCommand {
 
         Integer maxPrice = stockRepository.showMaxStockPrice(id);
         Integer minPrice = stockRepository.showMinStockPrice(id);
-        String stock = stockRepository.showStockName(id);
+        String stock = companyRepository.showStockName(id);
 
         Integer diff = maxPrice - minPrice;
 

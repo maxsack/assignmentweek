@@ -1,6 +1,7 @@
 package com.accenture.theincredibles.assignment.tinasack.commands.inputCommands;
 
 import com.accenture.theincredibles.assignment.tinasack.models.StockPrice;
+import com.accenture.theincredibles.assignment.tinasack.repositories.CompanyRepository;
 import com.accenture.theincredibles.assignment.tinasack.repositories.StockRepository;
 
 import java.sql.SQLException;
@@ -9,9 +10,11 @@ import java.util.List;
 public class ShowStockCommand implements InputCommand {
 
     private StockRepository stockRepository;
+    private CompanyRepository companyRepository;
 
-    public ShowStockCommand(StockRepository stockRepository) {
+    public ShowStockCommand(StockRepository stockRepository, CompanyRepository companyRepository) {
         this.stockRepository = stockRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -19,15 +22,12 @@ public class ShowStockCommand implements InputCommand {
         String[] input = userInput.split(" ");
         Integer id = Integer.valueOf(input[1]);
 
+        String stock = companyRepository.showStockName(id);
+
         List<StockPrice> stockPrices = stockRepository.showStockPriceByID(id);
-        int count = 0;
+        System.out.println("These are the listed prices for " + stock + ":");
         for (StockPrice stockPrice : stockPrices) {
-            count++;
             Integer price = stockPrice.getPrice();
-            String stock = stockPrice.getStockName();
-            if (count == 1) {
-                System.out.println("These are the listed prices for " + stock + ":");
-            }
             System.out.println(price + "€" );
         }
         System.out.println("- - - - - - - - - -");

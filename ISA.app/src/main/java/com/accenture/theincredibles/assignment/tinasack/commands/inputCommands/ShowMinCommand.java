@@ -1,5 +1,6 @@
 package com.accenture.theincredibles.assignment.tinasack.commands.inputCommands;
 
+import com.accenture.theincredibles.assignment.tinasack.repositories.CompanyRepository;
 import com.accenture.theincredibles.assignment.tinasack.repositories.StockRepository;
 
 import java.sql.SQLException;
@@ -7,9 +8,11 @@ import java.sql.SQLException;
 public class ShowMinCommand implements InputCommand {
 
     private StockRepository stockRepository;
+    private CompanyRepository companyRepository;
 
-    public ShowMinCommand(StockRepository stockRepository) {
+    public ShowMinCommand(StockRepository stockRepository, CompanyRepository companyRepository) {
         this.stockRepository = stockRepository;
+        this.companyRepository = companyRepository;
     }
 
     @Override
@@ -18,7 +21,7 @@ public class ShowMinCommand implements InputCommand {
         Integer id = Integer.valueOf(input[1]);
 
         Integer minPrice = stockRepository.showMinStockPrice(id);
-        String stock = stockRepository.showStockName(id);
+        String stock = companyRepository.showStockName(id);
 
         System.out.println("This is the highest price listed for " + stock + ":");
         System.out.println(minPrice + "€");

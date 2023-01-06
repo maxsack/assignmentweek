@@ -7,6 +7,7 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.IndustryRep
 import com.accenture.theincredibles.assignment.tinasack.repositories.StockRepository;
 
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ import java.util.Scanner;
 
 public class StartApp {
 
-    public void execute() throws SQLException {
+    public void execute() throws SQLException, IOException {
         Connection connection;
         try {
             connection = new Connector().openConnection();
@@ -69,13 +70,14 @@ public class StartApp {
 
     public List<InputCommand> createInputCommandList(IndustryRepository industryRepo, StockRepository stockRepo, CompanyRepository companyRepo){
         List<InputCommand> inputCommands = new ArrayList<>();
-        inputCommands.add(new ShowStockCommand(stockRepo));
-        inputCommands.add(new ShowMaxCommand(stockRepo));
-        inputCommands.add(new ShowMinCommand(stockRepo));
-        inputCommands.add(new ShowGapCommand(stockRepo));
+        inputCommands.add(new ShowStockCommand(stockRepo, companyRepo));
+        inputCommands.add(new ShowMaxCommand(stockRepo, companyRepo));
+        inputCommands.add(new ShowMinCommand(stockRepo, companyRepo));
+        inputCommands.add(new ShowGapCommand(stockRepo, companyRepo));
         inputCommands.add(new UpdateIndustryCommand(stockRepo, industryRepo));
-        inputCommands.add(new AddPriceCommand(stockRepo));
+        inputCommands.add(new AddPriceCommand(stockRepo, companyRepo));
         inputCommands.add(new SearchCommand(companyRepo));
+        inputCommands.add(new ImportCommand(stockRepo, companyRepo, industryRepo));
 
         return inputCommands;
     }

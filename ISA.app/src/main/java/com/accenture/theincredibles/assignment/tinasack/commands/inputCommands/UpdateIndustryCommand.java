@@ -23,7 +23,7 @@ public class UpdateIndustryCommand implements InputCommand {
         Integer id = Integer.valueOf(input[1]);
         String industry = input[2];
 
-        Integer industry_id = industryRepo.readIndustryByName(industry);
+        Integer industry_id = industryRepo.showIndustryID(industry);
 
         boolean updated = stockRepo.updateIndustry(id, industry_id);
         if (updated) {
