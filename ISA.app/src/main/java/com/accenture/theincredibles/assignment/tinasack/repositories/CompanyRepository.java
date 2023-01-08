@@ -77,7 +77,7 @@ public class CompanyRepository {
     }
 
     private boolean checkValidInsert(String stockname){
-        Integer count = 0;
+        Integer checkCount = 0;
         boolean firstCheck = firstCheck();
         if (firstCheck){
             return true;
@@ -88,32 +88,26 @@ public class CompanyRepository {
                 validStmt.setString(1, stockname);
                 ResultSet validResult = validStmt.executeQuery();
                 while (validResult.next()) {
-                    count = validResult.getInt(1);
+                    checkCount = validResult.getInt(1);
                 }
-                if (count == 0) {
-                    return true;
+                if (checkCount > 0) {
+                    return false;
                 }
             } catch (Exception vailidException) {
-                System.out.println("Something went wrong! Invalid insert.");
+                System.out.println("Name already exists in database!");
             }
         }
-        return false;
+        return true;
     }
     public void companyImport(String stockname) {
         if(checkValidInsert(stockname)) {
-            String sql = "insert into company name = ?";
-            PreparedStatement importStmt = connection.prepareStatement(sql);
-            importStmt.setString(1, stockname);
-            importStmt.execute();
-            /*
             try {
-                String sql = "insert into company name = ?;";
+                String sql = "insert into company set name = ?;";
                 PreparedStatement importStmt = connection.prepareStatement(sql);
                 importStmt.setString(1, stockname);
                 importStmt.execute();
             } catch (Exception importException) {
-                System.out.println("Sorry, something went wrong. Could not import!");
-            } */
+            }
         }
     }
 }

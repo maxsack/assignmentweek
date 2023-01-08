@@ -66,39 +66,37 @@ public class IndustryRepository {
     }
 
     private boolean checkValidInsert(String industry){
-        Integer count = 0;
+        Integer checkCount = 0;
         boolean firstCheck = firstCheck();
         if (firstCheck){
             return true;
         } else {
             try {
-                String sql = "select count(name) from industry name=?";
+                String sql = "select count(name) from industry name = ?";
                 PreparedStatement validStmt = connection.prepareStatement(sql);
                 validStmt.setString(1, industry);
                 ResultSet validResult = validStmt.executeQuery();
                 while (validResult.next()) {
-                    count = validResult.getInt(1);
+                    checkCount = validResult.getInt(1);
                 }
-                if (count == 0) {
-                    return true;
+                if (checkCount > 0) {
+                    return false;
                 }
             } catch (Exception vailidException) {
-                System.out.println("Something went wrong! Invalid insert.");
+                System.out.println("Name already exists in database!");
             }
         }
-        return false;
+        return true;
     }
 
     public void industryImport(String industry){
-        /* BEACHTE DAS INDUSTRY DOPPELT SIND VORHER CHECKEN!! */
         if(checkValidInsert(industry)) {
             try {
-                String sql = "insert into industry name=?";
+                String sql = "insert into industry set name=?";
                 PreparedStatement importStmt = connection.prepareStatement(sql);
                 importStmt.setString(1, industry);
                 importStmt.execute();
             } catch (Exception importException) {
-                System.out.println("Sorry, something went wrong. Could not import!");
             }
         }
     }

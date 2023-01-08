@@ -122,17 +122,19 @@ public class StockRepository {
         return industries;
     }
 
-    public void stockImport(Integer compayID, Double price, LocalDate date, Integer industryID){
+    public Integer stockImport(Integer compayID, Double price, LocalDate date, Integer industryID){
+        Integer count = 0;
         try{
-            String sql = "insert into stock (companyID, price, date, industryID) values (?, ?, ?, ?)";
+            String sql = "insert into stock (company_id, price, date, industry_id) values (?, ?, ?, ?)";
             PreparedStatement importStmt = connection.prepareStatement(sql);
             importStmt.setInt(1, compayID);
             importStmt.setDouble(2, price);
             importStmt.setObject(3, date);
             importStmt.setInt(4, industryID);
             importStmt.execute();
+            count++;
         } catch (Exception importException){
-            System.out.println("Sorry, something went wrong. Could not import!");
         }
+        return count;
     }
 }
