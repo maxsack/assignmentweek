@@ -23,6 +23,8 @@ public class DeleteCommand implements Command {
         stockRepo.delete();
         companyRepo.delete();
         industryRepo.delete();
+        System.out.println("Congrats database is empty now!");
+        System.out.println("- - - - - - - - - -");
         return true;
     }
 

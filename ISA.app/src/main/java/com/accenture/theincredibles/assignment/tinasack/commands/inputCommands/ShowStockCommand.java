@@ -27,7 +27,7 @@ public class ShowStockCommand implements InputCommand {
         List<StockPrice> stockPrices = stockRepository.showStockPriceByID(id);
         System.out.println("These are the listed prices for " + stock + ":");
         for (StockPrice stockPrice : stockPrices) {
-            Integer price = stockPrice.getPrice();
+            Double price = stockPrice.getPrice();
             System.out.println(price + "€" );
         }
         System.out.println("- - - - - - - - - -");

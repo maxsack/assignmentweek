@@ -32,11 +32,11 @@ public class AddPriceCommand implements InputCommand {
 
             stockRepo.addPrice(comp_id, date, price, industry_id);
 
-
             System.out.println("A new price for " + stockname + " have been added!");
         } catch (Exception e){
-            System.out.println("Adding failed - incorrect date format! Please provide date like yyyy-mm-dd!");
+            System.out.println("Adding failed - incorrect input! Please provide stock id, date and price.");
         }
+        System.out.println("- - - - - - - - - -");
         return true;
     }
 

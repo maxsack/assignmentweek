@@ -9,37 +9,49 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+/* This Repository contains methods to access the database access the industry table */
 public class IndustryRepository {
 
-    /** creating a connection to database for this repo **/
+    /* creating a connection to database for this repository */
     private Connection connection;
 
     public IndustryRepository(Connection connection) {
         this.connection = connection;
     }
 
-    public List<Industry> showIndustry() throws SQLException {
-        String sql = "select * from industry";
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        ResultSet resultSet = preparedStatement.executeQuery();
+    /* creating methods to access and manipulate the database as the given commands (user provided) require */
 
-        List<Industry> result = new ArrayList<>();
-        while (resultSet.next()) {
-            Industry industry = new Industry();
-            industry.setId(resultSet.getInt("id"));
-            industry.setName(resultSet.getString("name"));
-            result.add(industry);
+    public List<Industry> showIndustry() throws SQLException {
+        List<Industry> result = null;
+        try {
+            String sql = "select * from industry";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            result = new ArrayList<>();
+            while (resultSet.next()) {
+                Industry industry = new Industry();
+                industry.setId(resultSet.getInt("id"));
+                industry.setName(resultSet.getString("industryname"));
+                result.add(industry);
+            }
+        } catch (SQLException showIndustryException) {
+            System.out.println("Something went wrong. Could not provide data.");
         }
         return result;
     }
 
-    public Integer showIndustryID(String industry) throws SQLException{
-        String sql = "select id from industry where name = ?";
-        PreparedStatement getIdStmt = connection.prepareStatement(sql);
-        getIdStmt.setString(1, industry);
-        ResultSet getIdResult = getIdStmt.executeQuery();
-        if (getIdResult.next()) {
-            return getIdResult.getInt(1);
+    public Integer showIndustryID(String industry){
+        try {
+            String sql = "select id from industry where industryname = ?";
+            PreparedStatement getIdStmt = connection.prepareStatement(sql);
+            getIdStmt.setString(1, industry);
+            ResultSet getIdResult = getIdStmt.executeQuery();
+            if (getIdResult.next()) {
+                return getIdResult.getInt(1);
+            }
+        } catch (SQLException showIndustryIDException){
+            System.out.println("Something went wrong. Could not provide data for " + industry);
         }
         return 0;
     }
@@ -55,48 +67,32 @@ public class IndustryRepository {
         }
     }
 
-    private Integer count = 0;
-    private boolean firstCheck(){
-        this.count++;
-        if(this.count == 1){
-            return true;
-        } else {
+    private boolean checkValidInsert(String industry) throws SQLException {
+        Integer checkCount = 0;
+
+        String sql = "select COUNT(industryname) from industry where industryname = ?";
+        PreparedStatement validStmt = connection.prepareStatement(sql);
+        validStmt.setString(1, industry);
+        ResultSet validResult = validStmt.executeQuery();
+        while (validResult.next()) {
+            checkCount = validResult.getInt(1);
+        }
+        if (checkCount > 0) {
             return false;
         }
-    }
 
-    private boolean checkValidInsert(String industry){
-        Integer checkCount = 0;
-        boolean firstCheck = firstCheck();
-        if (firstCheck){
-            return true;
-        } else {
-            try {
-                String sql = "select count(name) from industry name = ?";
-                PreparedStatement validStmt = connection.prepareStatement(sql);
-                validStmt.setString(1, industry);
-                ResultSet validResult = validStmt.executeQuery();
-                while (validResult.next()) {
-                    checkCount = validResult.getInt(1);
-                }
-                if (checkCount > 0) {
-                    return false;
-                }
-            } catch (Exception vailidException) {
-                System.out.println("Name already exists in database!");
-            }
-        }
         return true;
     }
 
-    public void industryImport(String industry){
+    public void industryImport(String industry) throws SQLException {
         if(checkValidInsert(industry)) {
             try {
-                String sql = "insert into industry set name=?";
+                String sql = "insert into industry set industryname=?";
                 PreparedStatement importStmt = connection.prepareStatement(sql);
                 importStmt.setString(1, industry);
                 importStmt.execute();
-            } catch (Exception importException) {
+            } catch (Exception importException){
+                System.out.println("Something went wrong. Could not import " + industry);
             }
         }
     }

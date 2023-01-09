@@ -38,6 +38,6 @@ public class UpdateIndustryCommand implements InputCommand {
     @Override
     public boolean shouldExecute(String userInput) {
         String[] input = userInput.split(" ", 3);
-        return "update".equals(input[0]);
+        return "update-industry".equals(input[0]);
     }
 }

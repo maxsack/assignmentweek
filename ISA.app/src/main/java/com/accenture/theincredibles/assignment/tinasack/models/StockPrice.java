@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class StockPrice {
     private Integer company_id;
-    private Integer price;
+    private Double price;
 
 
     public Integer getCompany_id() {
@@ -16,11 +16,11 @@ public class StockPrice {
     }
 
 
-    public Integer getPrice() {
+    public Double getPrice() {
         return price;
     }
 
-    public void setPrice(Integer price) {
+    public void setPrice(Double price) {
         this.price = price;
     }
 

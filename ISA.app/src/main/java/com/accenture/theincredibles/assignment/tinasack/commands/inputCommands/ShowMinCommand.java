@@ -20,10 +20,10 @@ public class ShowMinCommand implements InputCommand {
         String[] input = userInput.split(" ");
         Integer id = Integer.valueOf(input[1]);
 
-        Integer minPrice = stockRepository.showMinStockPrice(id);
+        Double minPrice = stockRepository.showMinStockPrice(id);
         String stock = companyRepository.showStockName(id);
 
-        System.out.println("This is the highest price listed for " + stock + ":");
+        System.out.println("This is the lowest price listed for " + stock + ":");
         System.out.println(minPrice + "€");
         System.out.println("- - - - - - - - - -");
 

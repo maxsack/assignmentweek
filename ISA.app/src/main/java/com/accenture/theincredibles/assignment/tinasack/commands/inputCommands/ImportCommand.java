@@ -27,9 +27,6 @@ public class ImportCommand implements InputCommand {
         BufferedReader reader = new BufferedReader(new FileReader("ISA.app/src/main/java/com/accenture/theincredibles/assignment/tinasack/importFile/" + input[1]));
         /* get rid of first line */
         reader.readLine();
-
-        Integer countLines = 0;
-        Integer countImports = 0;
         while ((line = reader.readLine()) != null){
             String[] column = line.split(";");
             String stockname = column[0];
@@ -44,20 +41,10 @@ public class ImportCommand implements InputCommand {
             industryRepo.industryImport(industry);
             Integer industryID = industryRepo.showIndustryID(industry);
 
-            countImports = countImports + stockRepo.stockImport(companyID, price, date, industryID);
-            countLines++;
+            stockRepo.stockImport(companyID, price, date, industryID);
         }
-        if(countImports == countLines) {
-            System.out.println("Congrats file has been added to database!");
-        } else if (countImports < countLines) {
-            System.out.println("Attention. Could not import the whole file. Some data is missing!");
-        } else if (countImports > countLines) {
-            System.out.println("Attention. There are maybe some duplicates in database!");
-        } else if (countImports == 0) {
-            System.out.println("Sorry file has not been added to database!");
-        } else if (countLines == 0) {
-            System.out.println("ATTENTION! You tried to import an empty file!");
-        }
+        System.out.println("Congrats file has been added to database!");
+        System.out.println("- - - - - - - - - -");
         return true;
     }
 

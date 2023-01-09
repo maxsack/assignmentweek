@@ -20,11 +20,11 @@ public class ShowGapCommand implements InputCommand {
         String[] input = userInput.split(" ");
         Integer id = Integer.valueOf(input[1]);
 
-        Integer maxPrice = stockRepository.showMaxStockPrice(id);
-        Integer minPrice = stockRepository.showMinStockPrice(id);
+        Double maxPrice = stockRepository.showMaxStockPrice(id);
+        Double minPrice = stockRepository.showMinStockPrice(id);
         String stock = companyRepository.showStockName(id);
 
-        Integer diff = maxPrice - minPrice;
+        Double diff = maxPrice - minPrice;
 
         System.out.println("The difference between the highest and lowest price listed for " + stock + " is - " + diff + "€");
 

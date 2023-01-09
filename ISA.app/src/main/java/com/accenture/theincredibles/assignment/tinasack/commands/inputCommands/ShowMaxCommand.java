@@ -20,7 +20,7 @@ public class ShowMaxCommand implements InputCommand {
         String[] input = userInput.split(" ");
         Integer id = Integer.valueOf(input[1]);
 
-        Integer maxPrice = stockRepository.showMaxStockPrice(id);
+        Double maxPrice = stockRepository.showMaxStockPrice(id);
         String stock = companyRepository.showStockName(id);
 
         System.out.println("This is the highest price listed for " + stock + ":");
