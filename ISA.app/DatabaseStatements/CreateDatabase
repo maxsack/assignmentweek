@@ -1,0 +1,31 @@
+CREATE SCHEMA `stockDatabase`;
+
+CREATE TABLE `stockDatabase`.`company` (
+  `id` INT NOT NULL AUTO_INCREMENT,
+  `stockname` VARCHAR(100) NOT NULL,
+  PRIMARY KEY (`id`));
+
+  CREATE TABLE `stockDatabase`.`industry` (
+    `id` INT NOT NULL AUTO_INCREMENT,
+    `industryname` VARCHAR(100) NOT NULL,
+    PRIMARY KEY (`id`));
+
+    CREATE TABLE `stockDatabase`.`stock` (
+      `id` INT NOT NULL AUTO_INCREMENT,
+      `company_id` INT NOT NULL,
+      `price` DECIMAL NOT NULL,
+      `date` DATE NOT NULL,
+      `industry_id` INT NOT NULL,
+      PRIMARY KEY (`id`),
+      INDEX `companyID_idx` (`company_id` ASC) VISIBLE,
+      INDEX `industryID_idx` (`industry_id` ASC) VISIBLE,
+      CONSTRAINT `companyID`
+        FOREIGN KEY (`company_id`)
+        REFERENCES `data`.`company` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION,
+      CONSTRAINT `industryID`
+        FOREIGN KEY (`industry_id`)
+        REFERENCES `data`.`industry` (`id`)
+        ON DELETE NO ACTION
+        ON UPDATE NO ACTION);
