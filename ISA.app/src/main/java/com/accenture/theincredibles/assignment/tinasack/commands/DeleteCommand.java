@@ -6,6 +6,7 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.StockReposi
 
 import java.sql.SQLException;
 
+/* The “delete” command should allow you to delete all data from your database */
 public class DeleteCommand implements Command {
 
     private StockRepository stockRepo;

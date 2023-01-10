@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Properties;
 
+/* Class to provide a Connection to Database */
 public class Connector {
 
     public Connection openConnection() throws SQLException {

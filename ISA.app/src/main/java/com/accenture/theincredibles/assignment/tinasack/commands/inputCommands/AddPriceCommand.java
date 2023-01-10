@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/* The “add <id> <date> <price>” command should allow you add a new price for a specific time */
 public class AddPriceCommand implements InputCommand {
 
     private StockRepository stockRepo;

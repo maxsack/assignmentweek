@@ -6,6 +6,9 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.CompanyRepo
 import java.sql.SQLException;
 import java.util.List;
 
+/* The “search” command should help you to find the id for a company.
+It should support placeholders, so you need to type the first characters of a company to find it */
+
 public class SearchCommand implements InputCommand{
     private CompanyRepository companyRepo;
 

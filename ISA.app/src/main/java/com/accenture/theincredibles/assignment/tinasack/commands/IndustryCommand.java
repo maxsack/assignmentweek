@@ -7,6 +7,8 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.StockReposi
 import java.sql.SQLException;
 import java.util.List;
 
+/* The “industries” command lists all industries in the database with its ID and the number of stocks assigned to this industry */
+
 public class IndustryCommand implements Command {
     private IndustryRepository industryRepository;
 

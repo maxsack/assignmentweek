@@ -5,12 +5,13 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.StockReposi
 
 import java.sql.SQLException;
 
-public class ShowMinCommand implements InputCommand {
+/* The “low <id>” command show the lowest price for a stock ever had */
+public class ShowLowCommand implements InputCommand {
 
     private StockRepository stockRepository;
     private CompanyRepository companyRepository;
 
-    public ShowMinCommand(StockRepository stockRepository, CompanyRepository companyRepository) {
+    public ShowLowCommand(StockRepository stockRepository, CompanyRepository companyRepository) {
         this.stockRepository = stockRepository;
         this.companyRepository = companyRepository;
     }
@@ -33,6 +34,6 @@ public class ShowMinCommand implements InputCommand {
     @Override
     public boolean shouldExecute(String userInput) {
         String[] input = userInput.split(" ");
-        return "min".equals(input[0]);
+        return "low".equals(input[0]);
     }
 }

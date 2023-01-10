@@ -5,6 +5,7 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.StockReposi
 
 import java.sql.SQLException;
 
+/* The “update-industry <id> <industry>” command should update a stocks industry */
 public class UpdateIndustryCommand implements InputCommand {
 
     private StockRepository stockRepo;

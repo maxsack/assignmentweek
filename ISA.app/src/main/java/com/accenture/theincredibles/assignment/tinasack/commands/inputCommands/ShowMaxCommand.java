@@ -5,6 +5,7 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.StockReposi
 
 import java.sql.SQLException;
 
+/* shows the highest price of a stock */
 public class ShowMaxCommand implements InputCommand {
 
     private StockRepository stockRepository;

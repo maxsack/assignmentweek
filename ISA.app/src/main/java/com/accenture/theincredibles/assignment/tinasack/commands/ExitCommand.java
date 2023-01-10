@@ -2,6 +2,7 @@ package com.accenture.theincredibles.assignment.tinasack.commands;
 
 import java.util.Scanner;
 
+/* This command stops the REPL application */
 public class ExitCommand implements Command {
     @Override
     public boolean execute() {

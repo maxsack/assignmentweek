@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+/* Class to run the REPL application */
 public class StartApp {
 
     public void execute() throws SQLException, IOException {
@@ -72,7 +73,7 @@ public class StartApp {
         List<InputCommand> inputCommands = new ArrayList<>();
         inputCommands.add(new ShowStockCommand(stockRepo, companyRepo));
         inputCommands.add(new ShowMaxCommand(stockRepo, companyRepo));
-        inputCommands.add(new ShowMinCommand(stockRepo, companyRepo));
+        inputCommands.add(new ShowLowCommand(stockRepo, companyRepo));
         inputCommands.add(new ShowGapCommand(stockRepo, companyRepo));
         inputCommands.add(new UpdateIndustryCommand(stockRepo, industryRepo));
         inputCommands.add(new AddPriceCommand(stockRepo, companyRepo));

@@ -5,6 +5,7 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.StockReposi
 
 import java.sql.SQLException;
 
+/* The “gap <id>” command show the difference between the highest and the lowest price ever recorded */
 public class ShowGapCommand implements InputCommand {
 
     private StockRepository stockRepository;

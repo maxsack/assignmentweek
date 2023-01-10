@@ -7,6 +7,7 @@ import com.accenture.theincredibles.assignment.tinasack.repositories.StockReposi
 import java.sql.SQLException;
 import java.util.List;
 
+/* The “show <id>” command should show you the last ten prices for a stock with a specific id */
 public class ShowStockCommand implements InputCommand {
 
     private StockRepository stockRepository;

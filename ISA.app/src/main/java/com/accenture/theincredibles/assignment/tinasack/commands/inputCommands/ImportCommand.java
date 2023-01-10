@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
+/* imports .csv or other comma separated files to database */
 public class ImportCommand implements InputCommand {
     private StockRepository stockRepo;
     private CompanyRepository companyRepo;
